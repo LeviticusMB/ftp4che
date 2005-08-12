@@ -48,15 +48,31 @@ public class NormalFTPConnection extends FTPConnection {
     @Override
     public void connect() throws NotConnectedException,IOException,AuthenticationNotSupportedException,FtpIOException,FtpWorkflowException
     {
-        socketProvider = new SocketProvider();
+        try
+        {
+            socketProvider = new SocketProvider();
+        }catch (IOException ioe)
+        {
+            String error = "Error creating SocketProvider: " + ioe.getMessage();
+            log.error(error,ioe);
+            throw new NotConnectedException(error);
+        }
         // Only for logging
         String hostAndPort = getAddress().getHostName() + ":" + getAddress().getPort();
         try
         {
-            socketProvider.connect(getAddress());
-            log.debug("connected to:" + hostAndPort);
-            socketProvider.socket().setSoTimeout(getTimeout());
-            socketProvider.socket().setKeepAlive(true);
+            if(socketProvider.connect(getAddress()))
+            {   
+                log.debug("connected to:" + hostAndPort);
+                socketProvider.socket().setSoTimeout(getTimeout());
+                socketProvider.socket().setKeepAlive(true);
+            }
+            else
+            {
+                String error = "Couln't not connect to: " + hostAndPort;
+                log.error(error);
+                throw new NotConnectedException(error);
+            }
         }catch (IOException ioe)
         {
             String error = "Error connection to:" + hostAndPort;

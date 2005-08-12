@@ -41,21 +41,22 @@ import org.ftp4che.reply.Reply;
 
 
 public class ReplyWorker extends Thread {
-	public static final Logger log = Logger.getLogger(ReplyWorker.class.getName());
+	public Logger log = Logger.getLogger(ReplyWorker.class.getName());
     public static final int FINISHED = 1;
     public static final int ERROR_FILE_NOT_FOUND = 2;
     public static final int ERROR_IO_EXCEPTION = 3;
     public static final int UNKNOWN = -1;
     
-    private Exception caughtException = null;
-    private SocketProvider socketProvider;
-    private Command command;
-    private Charset charset = Charset.forName( "ISO8859-1" );
-    private CharsetDecoder charDecoder = charset.newDecoder();
-    private ByteBuffer buffer = ByteBuffer.allocateDirect(16384);
+    Exception caughtException = null;
+    SocketProvider socketProvider;
+    Command command;
+    List<String> lines = new ArrayList<String>();
+    Charset charset = Charset.forName( "ISO8859-1" );
+    CharsetDecoder charDecoder = charset.newDecoder();
+    ByteBuffer buffer = ByteBuffer.allocate(16384);
     
     private int status = ReplyWorker.UNKNOWN;
-    private Reply reply;
+    Reply reply;
     
     
     public ReplyWorker ( SocketProvider sc, Command command ) {
@@ -73,7 +74,7 @@ public class ReplyWorker extends Thread {
         try {
             String output = "";
             String out = "";
-            ByteBuffer buf = ByteBuffer.allocateDirect(1024);
+            ByteBuffer buf = ByteBuffer.allocate(1024);
             int amount;
             buf.clear();
             socketProvider.socket().setKeepAlive(true);
@@ -91,6 +92,7 @@ public class ReplyWorker extends Thread {
                 out = charDecoder.decode(buf).toString();
                 output += out;
                 buf.clear();
+                
                 String[] tmp = output.split("\n");
 
                 if (!isListReply && tmp.length > 0 && tmp[tmp.length - 1].length() > 3 
@@ -100,8 +102,14 @@ public class ReplyWorker extends Thread {
                 {
                     String[] stringLines = output.split("\n");
                     
-                    for (int i=0; i < stringLines.length; i++ )
-                        lines.add(stringLines[i]);
+                    for ( String line : stringLines ) {
+                        // Empty lines cause NoSuchElementException in 
+                        // FTPFile org.ftp4che.util.FTPFile.parseLine(String line)
+                        // (unsave use of StringTokenizer.nextToken
+                        if (line.length() > 0) {
+                            lines.add(line);
+                        }
+                    }
                     read = false;
                     output = "";
                     buf.clear();
@@ -114,14 +122,8 @@ public class ReplyWorker extends Thread {
             {
                 String[] stringLines = output.split("\r\n");
                 
-                for (int i=0; i < stringLines.length; i++ ) {
-                    // Empty lines cause NoSuchElementException in 
-                    // FTPFile org.ftp4che.util.FTPFile.parseLine(String line)
-                    // (unsave use of StringTokenizer.nextToken
-                    if (stringLines[i].length() > 0) {
-                        lines.add(stringLines[i]);
-                    }
-                }
+                for ( String line : stringLines )
+                    lines.add(line);
                 output = "";
                 buf.clear();
                 socketProvider.close();

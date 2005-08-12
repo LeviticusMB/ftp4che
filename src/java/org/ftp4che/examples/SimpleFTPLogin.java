@@ -32,12 +32,12 @@ public class SimpleFTPLogin {
         
         Properties pt = new Properties();
         pt.setProperty("connection.host","127.0.0.1");
-        pt.setProperty("connection.port","54322");
+        pt.setProperty("connection.port","21");
         pt.setProperty("user.login","ftpuser");
         pt.setProperty("user.password","ftp4che");
-        pt.put("connection.type", new Integer(FTPConnection.AUTH_TLS_FTP_CONNECTION));
+        pt.put("connection.type", new Integer(FTPConnection.FTP_CONNECTION));
         pt.put("connection.timeout",new Integer(10000));
-        pt.put("connection.passive",new Boolean(true));
+        pt.put("connection.passive",new Boolean(false));
         try
         {
             FTPConnection connection = FTPConnectionFactory.getInstance(pt);
@@ -83,6 +83,10 @@ public class SimpleFTPLogin {
                 for(int i = 0; i < fileList.size(); i++)
                     log.info("Name:" + fileList.get(i).getName() + " Mode:" + fileList.get(i).getMode() + " Date:" + fileList.get(i).getDate() + " Size:" + fileList.get(i).getSize());
                 log.debug("List Size:" + fileList.size());
+                List<FTPFile> fileList2 = connection.getDirectoryListing();
+                for(int i = 0; i < fileList2.size(); i++)
+                    log.info("Name:" + fileList2.get(i).getName() + " Mode:" + fileList2.get(i).getMode() + " Date:" + fileList2.get(i).getDate() + " Size:" + fileList2.get(i).getSize());
+                log.debug("List Size:" + fileList2.size());
 
 /*
                 FTPFile fromFile = new FTPFile();
