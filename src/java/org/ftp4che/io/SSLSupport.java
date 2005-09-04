@@ -16,7 +16,7 @@
 *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA  *
 *                                                                           *
 *****************************************************************************/
-package org.ftp4che.util;
+package org.ftp4che.io;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +35,7 @@ import javax.net.ssl.TrustManager;
 
 import org.apache.log4j.Logger;
 import org.ftp4che.FTPConnection;
+import org.ftp4che.util.EasyX509TrustManager;
 
 
 public class SSLSupport {
