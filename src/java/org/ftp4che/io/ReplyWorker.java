@@ -140,16 +140,16 @@ public class ReplyWorker extends Thread {
 					+ Arrays.toString(out.getBytes()));
 			output += out;
 			buf.clear();
-			String[] tmp = output.split("\n");
+			String[] tmp = output.split("\r?\n");
 
 			if (!isListReply
 					&& tmp.length > 0
 					&& tmp[tmp.length - 1].length() > 3
-					&& tmp[tmp.length - 1].endsWith("\r")
+//					&& tmp[tmp.length - 1].endsWith("\r")
 					&& tmp[tmp.length - 1].charAt(3) == ' '
 					&& Pattern.matches("[0-9]+", tmp[tmp.length - 1].substring(
 							0, 3))) {
-				String[] stringLines = output.split("\n");
+				String[] stringLines = output.split("\r?\n");
 
 				for (int i = 0; i < stringLines.length; i++) {
 					log
@@ -167,7 +167,7 @@ public class ReplyWorker extends Thread {
 			}
 		}
 		if (isListReply) {
-			String[] stringLines = output.split("\r\n");
+			String[] stringLines = output.split("\r?\n");
 
 			for (int i = 0; i < stringLines.length; i++) {
 				// Empty lines cause NoSuchElementException in
