@@ -1085,9 +1085,10 @@ public abstract class FTPConnection {
 
         // ensure that in/out pipes are connected already
         try {
-        	for(int i=0; i<60 && pis.available() <= 0; i++)
-        		Thread.sleep(1000);
-        }catch(Exception e) {}
+            for(int i=0; i<60 && pis.available() <= 0 && downStreamingThread.getCaughtException() == null; i++) {
+                Thread.sleep(100);
+            }
+        }catch(InterruptedException e) {}
         
         //Check if in the Downloadthread a Exception occured
         if (downStreamingThread.getCaughtException()!=null){
