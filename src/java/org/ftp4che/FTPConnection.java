@@ -1978,6 +1978,26 @@ public abstract class FTPConnection {
     }
 
     /**
+     * public long getFileSize(FTPFile file)
+     * 
+     * returns the size of the given file on the server
+     * 
+     * @param file
+     *            the file to get size of
+     * @throws IOException
+     * @throws FtpIOException
+     * @throws FtpWorkflowException
+     */
+    public long getFileSize(FTPFile file) throws IOException, FtpIOException,
+            FtpWorkflowException {
+        Command command = new Command(Command.SIZE, file.toString());
+        Reply reply = sendCommand(command);
+        reply.dumpReply();
+        reply.validate();
+        return ReplyFormatter.parseSIZEReply(reply);
+    }
+
+    /**
      * public void setTransferType(boolean type)
      * 
      * this method is used to set the transfer type to binary (TYPE I) or asccii

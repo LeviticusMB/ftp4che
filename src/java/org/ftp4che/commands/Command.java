@@ -99,6 +99,8 @@ public class Command {
     public final static String PRET = "PRET";
     
     public final static String CPSV = "CPSV";
+
+    public final static String SIZE = "SIZE";
     
     String command;
 

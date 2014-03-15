@@ -101,4 +101,18 @@ public class ReplyFormatter {
                 + "." + host[3], (Integer.parseInt(host[4]) << 8)
                 + Integer.parseInt(host[5]));
     }
+
+    public static long parseSIZEReply(Reply sizeReply)
+        throws UnkownReplyStateException {
+        if (!sizeReply.getReplyCode().equals(org.ftp4che.reply.ReplyCode.REPLY_213)) {
+            throw new UnkownReplyStateException("SIZE Reply was not successful: " + sizeReply.getReplyCode());
+        }
+
+        try {
+            return Long.parseLong(sizeReply.getReplyMessage());
+        }
+        catch (NumberFormatException ex) {
+            throw new UnkownReplyStateException("SIZE Reply is malformed: " + sizeReply.getReplyMessage());
+        }
+    }
 }
