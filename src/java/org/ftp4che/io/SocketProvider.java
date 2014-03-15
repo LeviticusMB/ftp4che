@@ -108,15 +108,15 @@ public class SocketProvider {
     // FTPConnection.MAX_UPLOAD_BANDWIDTH);
     // }
 
-    public void connect(SocketAddress remote, Proxy proxy, int maxDownload,
+    public void connect(SocketAddress remote, int timeout, Proxy proxy, int maxDownload,
             int maxUpload) throws IOException {
 
         if (proxy == null) {
-            socket.connect(remote);
+            socket.connect(remote, timeout);
         } else {
             InetSocketAddress isa = (InetSocketAddress) remote;
             socket = proxy.connect(isa.getAddress().getHostAddress(), isa
-                    .getPort());
+                                   .getPort());
         }
 
         this.maxDownload = maxDownload;

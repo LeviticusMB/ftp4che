@@ -1636,7 +1636,7 @@ public abstract class FTPConnection {
     	}
         InetSocketAddress dataSocket = sendPassiveMode();
         SocketProvider provider = new SocketProvider(false);
-        provider.connect(dataSocket, getProxy(), getDownloadBandwidth(),
+        provider.connect(dataSocket, getTimeout(), getProxy(), getDownloadBandwidth(),
                 getUploadBandwidth());
         provider.setSSLMode(getConnectionType());
 

@@ -45,7 +45,7 @@ public class SecureFTPConnection extends FTPConnection {
         socketProvider = new SocketProvider();
         try {
             socketProvider.socket().setSoTimeout(getTimeout());
-            socketProvider.connect(getAddress(), getProxy(),
+            socketProvider.connect(getAddress(), getTimeout(), getProxy(),
                     getDownloadBandwidth(), getUploadBandwidth());
             log.debug("connected to:" + getAddress().getHostName() + ":"
                     + getAddress().getPort());       

@@ -59,7 +59,7 @@ public class NormalFTPConnection extends FTPConnection {
                 + getAddress().getPort();
         try {
             socketProvider.socket().setSoTimeout(getTimeout());
-            socketProvider.connect(getAddress(), getProxy(),
+            socketProvider.connect(getAddress(), getTimeout(), getProxy(),
                     getDownloadBandwidth(), getUploadBandwidth());
             log.debug("connected to:" + hostAndPort);     
             socketProvider.socket().setKeepAlive(true);
