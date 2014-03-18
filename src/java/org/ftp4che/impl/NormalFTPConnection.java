@@ -77,12 +77,12 @@ public class NormalFTPConnection extends FTPConnection {
         Reply reply = sendCommand(new Command(Command.USER, getUser()));
         reply.dumpReply();
         reply.validate();
-        if (getPassword() != null && getPassword().length() > 0) {
+        if (getPassword() != null && reply.getReplyCode().equals(ReplyCode.REPLY_331)) {
             reply = sendCommand(new Command(Command.PASS, getPassword()));
             reply.dumpReply();
             reply.validate();
         }
-        if (getAccount() != null && getAccount().length() > 0) {
+        if (getAccount() != null) {
             reply = sendCommand(new Command(Command.ACCT, getAccount()));
             reply.dumpReply();
             reply.validate();
