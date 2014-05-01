@@ -367,8 +367,12 @@ public abstract class FTPConnection {
         	reply = ReplyWorker.readReply(socketProvider);
         }catch(IOException ioe) {
             setConnectionStatus(ERROR);
-        	disconnect();
-        	throw ioe;
+
+            if (!cmd.getCommand().equals(Command.QUIT) /* Prevent potential endless recursion */) {
+                disconnect();
+            }
+
+            throw ioe;
         }
         
         if (getConnectionStatusLock() == CSL_DIRECT_CALL)
