@@ -459,7 +459,7 @@ public abstract class FTPConnection {
      *            the milliseconds before a timeout will close the connection
      * @author arnold,kurt
      */
-    protected void setTimeout(int millis) {
+    public void setTimeout(int millis) {
         this.timeout = millis;
     }
 
@@ -472,7 +472,7 @@ public abstract class FTPConnection {
      *            the milliseconds before a timeout will close the connection
      * @author arnold,kurt
      */
-    protected int getTimeout() {
+    public int getTimeout() {
         return timeout;
     }
 
@@ -1089,7 +1089,7 @@ public abstract class FTPConnection {
 
         // ensure that in/out pipes are connected already
         try {
-            for(int i=0; i<60 && pis.available() <= 0 && downStreamingThread.getCaughtException() == null; i++) {
+            for(int i=0; i<getTimeout()/100 && pis.available() <= 0 && downStreamingThread.getCaughtException() == null; i++) {
                 Thread.sleep(100);
             }
         }catch(InterruptedException e) {}
