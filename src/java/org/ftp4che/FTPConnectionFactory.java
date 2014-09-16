@@ -97,6 +97,9 @@ public class FTPConnectionFactory {
             else if (connectionTypeName
                         .equalsIgnoreCase("IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION"))
                         connectionType = FTPConnection.IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION;
+            else if (connectionTypeName
+                        .equalsIgnoreCase("IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION"))
+                        connectionType = FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION;
             else
                 throw new ConfigurationException(
                         "Connection method not specified");
@@ -227,7 +230,8 @@ public class FTPConnectionFactory {
                 || connectionType == FTPConnection.IMPLICIT_SSL_FTP_CONNECTION
                 || connectionType == FTPConnection.IMPLICIT_TLS_FTP_CONNECTION
                 || connectionType == FTPConnection.IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION
-                || connectionType == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION) {
+                || connectionType == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION
+                || connectionType == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION) {
             connection = new SecureFTPConnection();
         } else {
             throw new ConfigurationException(

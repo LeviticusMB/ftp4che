@@ -74,7 +74,8 @@ public class SSLSupport {
             KeyStoreException, KeyManagementException, SSLException,
             IOException {
         if (mode == FTPConnection.AUTH_SSL_FTP_CONNECTION
-                || mode == FTPConnection.IMPLICIT_SSL_FTP_CONNECTION)
+                || mode == FTPConnection.IMPLICIT_SSL_FTP_CONNECTION
+                || mode == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION)
             context = SSLContext.getInstance("SSL");
         else
             context = SSLContext.getInstance("TLS");

@@ -60,7 +60,8 @@ public class SecureFTPConnection extends FTPConnection {
         if (this.getConnectionType() == FTPConnection.IMPLICIT_SSL_FTP_CONNECTION
                 || this.getConnectionType() == FTPConnection.IMPLICIT_TLS_FTP_CONNECTION
                 || this.getConnectionType() == FTPConnection.IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION
-                || this.getConnectionType() == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION) {
+                || this.getConnectionType() == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION
+                || this.getConnectionType() == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION) {
             negotiateAndLogin(null);
         } else {
         	Reply connectReply = ReplyWorker.readReply(this.socketProvider);

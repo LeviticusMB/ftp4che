@@ -94,6 +94,8 @@ public abstract class FTPConnection {
     
     public static final int IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION = 7;
 
+    public static final int IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION = 8;
+
     /**
      * Constants for up-/download bandwidth public static final long
      * MAX_DOWNLOAD_BANDWIDTH = public static final long MAX_UPLOAD_BANDWIDTH =
@@ -789,7 +791,8 @@ public abstract class FTPConnection {
         SocketProvider provider = null;
         String workDirectory = getWorkDirectory();
         if (getConnectionType() == FTPConnection.AUTH_SSL_FTP_CONNECTION
-                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION) {
+            || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION
+            || getConnectionType() == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION) {
             Command pbsz = new Command(Command.PBSZ, "0");
             (sendCommand(pbsz)).dumpReply();
             Command prot = new Command(Command.PROT, "P");
@@ -914,7 +917,8 @@ public abstract class FTPConnection {
         if (connectionType == FTPConnection.AUTH_TLS_FTP_CONNECTION
                 || connectionType == FTPConnection.AUTH_SSL_FTP_CONNECTION
                 || connectionType == FTPConnection.IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION
-                || connectionType == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION)
+                || connectionType == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION
+                || connectionType == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION)
             provider.negotiate(this.getTrustManagers(),this.getKeyManagers());
 
         setConnectionStatus(FTPConnection.IDLE);
@@ -966,7 +970,8 @@ public abstract class FTPConnection {
         SocketProvider provider = null;
 
         if (getConnectionType() == FTPConnection.AUTH_SSL_FTP_CONNECTION
-                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION) {
+                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION
+                || getConnectionType() == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION) {
             Command pbsz = new Command(Command.PBSZ, "0");
             (sendCommand(pbsz)).dumpReply();
             Command prot = new Command(Command.PROT, "P");
@@ -1121,7 +1126,8 @@ public abstract class FTPConnection {
         SocketProvider provider = null;
 
         if (getConnectionType() == FTPConnection.AUTH_SSL_FTP_CONNECTION
-                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION) {
+                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION
+                || getConnectionType() == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION) {
             Command pbsz = new Command(Command.PBSZ, "0");
             (sendCommand(pbsz)).dumpReply();
             Command prot = new Command(Command.PROT, "P");
@@ -1272,7 +1278,8 @@ public abstract class FTPConnection {
         SocketProvider provider = null;
 
         if (getConnectionType() == FTPConnection.AUTH_SSL_FTP_CONNECTION
-                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION) {
+                || getConnectionType() == FTPConnection.AUTH_TLS_FTP_CONNECTION
+                || getConnectionType() == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION) {
             Command pbsz = new Command(Command.PBSZ, "0");
             (sendCommand(pbsz)).dumpReply();
             Command prot = new Command(Command.PROT, "P");
@@ -1651,7 +1658,8 @@ public abstract class FTPConnection {
         if (connectionType == FTPConnection.AUTH_TLS_FTP_CONNECTION
                 || connectionType == FTPConnection.AUTH_SSL_FTP_CONNECTION
                 || connectionType == FTPConnection.IMPLICIT_SSL_WITH_CRYPTED_DATA_FTP_CONNECTION
-                || connectionType == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION)
+                || connectionType == FTPConnection.IMPLICIT_TLS_WITH_CRYPTED_DATA_FTP_CONNECTION
+                || connectionType == FTPConnection.IMPLICIT_SSL_WITH_AUTH_DATA_FTP_CONNECTION)
             provider.negotiate(this.getTrustManagers(),this.getKeyManagers());
 
         setConnectionStatus(FTPConnection.IDLE);
